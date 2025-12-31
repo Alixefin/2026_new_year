@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 | System Boot</title>
+    <meta name="description" content="Welcome to 2026 - A robotic new year experience">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Scanline Overlay -->
+    <div class="scanlines"></div>
+    
+    <!-- CRT Effect Overlay -->
+    <div class="crt-overlay"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- Scene 1: Loading 2025 Files -->
+        <section id="scene1" class="scene active">
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                    <span class="terminal-title">SYSTEM://2025_ARCHIVE</span>
+                </div>
+                <div class="terminal-body">
+                    <div class="terminal-text">
+                        <p class="command">> INITIATING FILE RETRIEVAL SEQUENCE...</p>
+                        <p class="command">> LOADING ALL FORMER FILES FROM 2025</p>
+                        <div class="file-list" id="files2025"></div>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progressBar1"></div>
+                        </div>
+                        <p class="status-text" id="status1">PROCESSING...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scene 2: Error - Files Closed -->
+        <section id="scene2" class="scene">
+            <div class="error-screen">
+                <div class="glitch-container">
+                    <div class="error-icon">⚠</div>
+                    <h1 class="error-title glitch" data-text="SYSTEM ERROR">SYSTEM ERROR</h1>
+                    <div class="error-code">ERR_CODE: 2025_EOF</div>
+                    <p class="error-message">FILES CLOSED</p>
+                    <div class="file-fragments" id="fileFragments"></div>
+                    <p class="error-sub">Year cycle complete. Initiating cleanup...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scene 3: Loading New Files -->
+        <section id="scene3" class="scene">
+            <div class="boot-screen">
+                <div class="boot-logo">
+                    <span class="bracket">[</span>
+                    <span class="boot-text">SYSTEM REBOOT</span>
+                    <span class="bracket">]</span>
+                </div>
+                <div class="boot-sequence">
+                    <p class="boot-line">> Initializing new year protocol...</p>
+                    <p class="boot-line">> Loading fresh configurations...</p>
+                    <p class="boot-line">> LOADING NEW FILES FOR 2026</p>
+                    <div class="file-list new-files" id="files2026"></div>
+                    <div class="progress-container cyan">
+                        <div class="progress-bar cyan" id="progressBar2"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scene 4: Files Opening -->
+        <section id="scene4" class="scene">
+            <div class="files-grid">
+                <h2 class="section-title">
+                    <span class="typing-text" id="openingText"></span>
+                    <span class="cursor">|</span>
+                </h2>
+                <div class="windows-container" id="windowsContainer"></div>
+            </div>
+        </section>
+
+        <!-- Scene 5: 2026 Reveal -->
+        <section id="scene5" class="scene">
+            <div class="reveal-container">
+                <div class="year-reveal">
+                    <div class="year-digit" data-digit="2">2</div>
+                    <div class="year-digit" data-digit="0">0</div>
+                    <div class="year-digit" data-digit="2">2</div>
+                    <div class="year-digit" data-digit="6">6</div>
+                </div>
+                <div class="welcome-message">
+                    <p class="welcome-line" id="welcomeLine1"></p>
+                    <p class="welcome-line sub" id="welcomeLine2"></p>
+                </div>
+                <div class="particles" id="particles"></div>
+                <button class="replay-btn" id="replayBtn">
+                    <span class="btn-icon">↻</span> REPLAY SEQUENCE
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

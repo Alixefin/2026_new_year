@@ -1,0 +1,765 @@
+/* ========================================
+   NEW YEAR 2026 - ROBOTIC ANIMATION THEME
+   ======================================== */
+
+:root {
+    --bg-dark: #0a0a0f;
+    --bg-terminal: #0d1117;
+    --cyan: #00fff2;
+    --cyan-dark: #00b8b0;
+    --magenta: #ff00ff;
+    --green: #00ff41;
+    --red: #ff3333;
+    --yellow: #ffff00;
+    --white: #ffffff;
+    --gray: #888888;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-display: 'Orbitron', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--font-mono);
+    background: var(--bg-dark);
+    color: var(--green);
+    position: relative;
+}
+
+/* Scanlines Effect */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+}
+
+/* CRT Overlay */
+.crt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        rgba(0, 0, 0, 0.3) 100%
+    );
+}
+
+/* Container */
+.container {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Scene Base */
+.scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.scene.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ========================================
+   SCENE 1: LOADING 2025 FILES
+   ======================================== */
+
+.terminal {
+    width: 90%;
+    max-width: 700px;
+    background: var(--bg-terminal);
+    border: 1px solid var(--green);
+    border-radius: 8px;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 65, 0.3),
+        inset 0 0 60px rgba(0, 255, 65, 0.05);
+    overflow: hidden;
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: rgba(0, 255, 65, 0.1);
+    border-bottom: 1px solid var(--green);
+}
+
+.terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.terminal-dot.red { background: var(--red); }
+.terminal-dot.yellow { background: var(--yellow); }
+.terminal-dot.green { background: var(--green); }
+
+.terminal-title {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--gray);
+    letter-spacing: 1px;
+}
+
+.terminal-body {
+    padding: 20px;
+    min-height: 300px;
+}
+
+.terminal-text .command {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    opacity: 0;
+    animation: fadeInUp 0.5s forwards;
+}
+
+.terminal-text .command:nth-child(1) { animation-delay: 0.2s; }
+.terminal-text .command:nth-child(2) { animation-delay: 0.6s; }
+
+.file-list {
+    margin: 20px 0;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-left: 3px solid var(--green);
+    max-height: 150px;
+    overflow: hidden;
+}
+
+.file-item {
+    font-size: 0.8rem;
+    padding: 4px 0;
+    color: var(--cyan);
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: fileSlideIn 0.3s forwards;
+}
+
+.file-item::before {
+    content: '📁 ';
+}
+
+.progress-container {
+    height: 20px;
+    background: rgba(0, 255, 65, 0.1);
+    border: 1px solid var(--green);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.progress-container.cyan {
+    border-color: var(--cyan);
+    background: rgba(0, 255, 242, 0.1);
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--green), var(--cyan));
+    box-shadow: 0 0 20px var(--green);
+    transition: width 0.1s linear;
+}
+
+.progress-bar.cyan {
+    background: linear-gradient(90deg, var(--cyan), var(--magenta));
+    box-shadow: 0 0 20px var(--cyan);
+}
+
+.status-text {
+    font-size: 0.8rem;
+    color: var(--gray);
+    text-align: center;
+    animation: blink 1s infinite;
+}
+
+/* ========================================
+   SCENE 2: ERROR SCREEN
+   ======================================== */
+
+#scene2 {
+    background: var(--bg-dark);
+}
+
+.error-screen {
+    text-align: center;
+    animation: screenShake 0.5s ease;
+}
+
+.glitch-container {
+    position: relative;
+}
+
+.error-icon {
+    font-size: 5rem;
+    color: var(--red);
+    animation: pulse 0.5s infinite;
+    text-shadow: 0 0 30px var(--red);
+}
+
+.error-title {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: var(--red);
+    margin: 20px 0;
+    text-shadow: 0 0 20px var(--red);
+}
+
+/* Glitch Effect */
+.glitch {
+    position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    animation: glitch1 0.3s infinite;
+    color: var(--cyan);
+    z-index: -1;
+}
+
+.glitch::after {
+    animation: glitch2 0.3s infinite;
+    color: var(--magenta);
+    z-index: -2;
+}
+
+.error-code {
+    font-size: 1rem;
+    color: var(--yellow);
+    margin: 10px 0;
+    letter-spacing: 2px;
+}
+
+.error-message {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--red);
+    margin: 30px 0;
+    animation: errorFlash 0.2s infinite;
+}
+
+.file-fragments {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.fragment {
+    padding: 8px 16px;
+    background: rgba(255, 51, 51, 0.2);
+    border: 1px solid var(--red);
+    color: var(--red);
+    font-size: 0.7rem;
+    animation: fragmentFade 0.5s forwards;
+    opacity: 1;
+}
+
+.error-sub {
+    font-size: 0.9rem;
+    color: var(--gray);
+    margin-top: 30px;
+}
+
+/* ========================================
+   SCENE 3: BOOT SCREEN
+   ======================================== */
+
+#scene3 {
+    background: var(--bg-dark);
+}
+
+.boot-screen {
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+}
+
+.boot-logo {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--cyan);
+    margin-bottom: 40px;
+    text-shadow: 0 0 30px var(--cyan);
+}
+
+.bracket {
+    color: var(--magenta);
+}
+
+.boot-text {
+    animation: bootFlicker 2s infinite;
+}
+
+.boot-sequence {
+    text-align: left;
+    padding: 20px;
+    background: rgba(0, 255, 242, 0.05);
+    border: 1px solid var(--cyan);
+    border-radius: 8px;
+}
+
+.boot-line {
+    font-size: 0.85rem;
+    color: var(--cyan);
+    margin-bottom: 10px;
+    opacity: 0;
+    animation: fadeInUp 0.5s forwards;
+}
+
+.boot-line:nth-child(1) { animation-delay: 0.2s; }
+.boot-line:nth-child(2) { animation-delay: 0.5s; }
+.boot-line:nth-child(3) { animation-delay: 0.8s; }
+
+.new-files {
+    border-left-color: var(--cyan);
+}
+
+.new-files .file-item {
+    color: var(--magenta);
+}
+
+.new-files .file-item::before {
+    content: '✨ ';
+}
+
+/* ========================================
+   SCENE 4: FILES OPENING
+   ======================================== */
+
+#scene4 {
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a2e 100%);
+}
+
+.files-grid {
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.section-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--cyan);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.cursor {
+    animation: blink 0.7s infinite;
+}
+
+.windows-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.window-card {
+    background: rgba(0, 255, 242, 0.05);
+    border: 1px solid var(--cyan);
+    border-radius: 8px;
+    overflow: hidden;
+    transform: scale(0) translateY(50px);
+    opacity: 0;
+    animation: windowOpen 0.6s forwards;
+    box-shadow: 0 0 30px rgba(0, 255, 242, 0.2);
+}
+
+.window-card:nth-child(1) { animation-delay: 0.1s; }
+.window-card:nth-child(2) { animation-delay: 0.2s; }
+.window-card:nth-child(3) { animation-delay: 0.3s; }
+.window-card:nth-child(4) { animation-delay: 0.4s; }
+.window-card:nth-child(5) { animation-delay: 0.5s; }
+.window-card:nth-child(6) { animation-delay: 0.6s; }
+
+.window-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 12px;
+    background: rgba(0, 255, 242, 0.1);
+    border-bottom: 1px solid var(--cyan);
+}
+
+.window-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.window-dot.red { background: var(--red); }
+.window-dot.yellow { background: var(--yellow); }
+.window-dot.green { background: var(--green); }
+
+.window-title {
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: var(--gray);
+}
+
+.window-body {
+    padding: 15px;
+    min-height: 80px;
+}
+
+.window-body p {
+    font-size: 0.8rem;
+    color: var(--magenta);
+    line-height: 1.6;
+}
+
+/* ========================================
+   SCENE 5: 2026 REVEAL
+   ======================================== */
+
+#scene5 {
+    background: radial-gradient(ellipse at center, #1a1a2e 0%, var(--bg-dark) 100%);
+}
+
+.reveal-container {
+    text-align: center;
+    position: relative;
+}
+
+.year-reveal {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.year-digit {
+    font-family: var(--font-display);
+    font-size: 8rem;
+    font-weight: 900;
+    color: transparent;
+    background: linear-gradient(180deg, var(--cyan) 0%, var(--magenta) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 0 60px rgba(0, 255, 242, 0.5);
+    opacity: 0;
+    transform: translateY(100px) rotateX(90deg);
+    animation: digitReveal 0.8s forwards;
+}
+
+.year-digit:nth-child(1) { animation-delay: 0.2s; }
+.year-digit:nth-child(2) { animation-delay: 0.4s; }
+.year-digit:nth-child(3) { animation-delay: 0.6s; }
+.year-digit:nth-child(4) { animation-delay: 0.8s; }
+
+.welcome-message {
+    margin-top: 30px;
+}
+
+.welcome-line {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--cyan);
+    letter-spacing: 3px;
+    opacity: 0;
+    animation: fadeInUp 1s forwards;
+    animation-delay: 1.5s;
+    text-shadow: 0 0 20px var(--cyan);
+}
+
+.welcome-line.sub {
+    font-size: 1rem;
+    color: var(--magenta);
+    margin-top: 15px;
+    animation-delay: 2s;
+    letter-spacing: 2px;
+}
+
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: particleFloat 3s infinite;
+    box-shadow: 0 0 10px var(--cyan);
+}
+
+.replay-btn {
+    margin-top: 50px;
+    padding: 15px 30px;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    color: var(--cyan);
+    background: transparent;
+    border: 2px solid var(--cyan);
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeInUp 1s forwards;
+    animation-delay: 2.5s;
+}
+
+.replay-btn:hover {
+    background: var(--cyan);
+    color: var(--bg-dark);
+    box-shadow: 0 0 30px var(--cyan);
+}
+
+.btn-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.replay-btn:hover .btn-icon {
+    transform: rotate(360deg);
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fileSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes screenShake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes glitch1 {
+    0% { clip-path: inset(20% 0 30% 0); transform: translateX(-3px); }
+    20% { clip-path: inset(60% 0 10% 0); transform: translateX(3px); }
+    40% { clip-path: inset(10% 0 70% 0); transform: translateX(-3px); }
+    60% { clip-path: inset(80% 0 5% 0); transform: translateX(3px); }
+    80% { clip-path: inset(5% 0 80% 0); transform: translateX(-3px); }
+    100% { clip-path: inset(30% 0 20% 0); transform: translateX(3px); }
+}
+
+@keyframes glitch2 {
+    0% { clip-path: inset(70% 0 10% 0); transform: translateX(3px); }
+    20% { clip-path: inset(10% 0 60% 0); transform: translateX(-3px); }
+    40% { clip-path: inset(50% 0 20% 0); transform: translateX(3px); }
+    60% { clip-path: inset(20% 0 50% 0); transform: translateX(-3px); }
+    80% { clip-path: inset(80% 0 5% 0); transform: translateX(3px); }
+    100% { clip-path: inset(5% 0 80% 0); transform: translateX(-3px); }
+}
+
+@keyframes errorFlash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+@keyframes fragmentFade {
+    from { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+    to { 
+        opacity: 0; 
+        transform: scale(0.5) rotate(10deg);
+    }
+}
+
+@keyframes bootFlicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+    52% { opacity: 1; }
+    54% { opacity: 0.9; }
+}
+
+@keyframes windowOpen {
+    from {
+        opacity: 0;
+        transform: scale(0) translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes digitReveal {
+    from {
+        opacity: 0;
+        transform: translateY(100px) rotateX(90deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0);
+    }
+}
+
+@keyframes particleFloat {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(50px);
+        opacity: 0;
+    }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .terminal {
+        width: 95%;
+    }
+    
+    .error-title {
+        font-size: 2rem;
+    }
+    
+    .error-icon {
+        font-size: 3rem;
+    }
+    
+    .boot-logo {
+        font-size: 1.5rem;
+    }
+    
+    .year-digit {
+        font-size: 4rem;
+    }
+    
+    .welcome-line {
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+    
+    .welcome-line.sub {
+        font-size: 0.8rem;
+    }
+    
+    .files-grid {
+        padding: 20px;
+    }
+    
+    .section-title {
+        font-size: 1rem;
+    }
+    
+    .windows-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .year-digit {
+        font-size: 3rem;
+        gap: 5px;
+    }
+    
+    .terminal-body {
+        padding: 15px;
+    }
+    
+    .file-list {
+        max-height: 100px;
+    }
+    
+    .replay-btn {
+        padding: 12px 24px;
+        font-size: 0.8rem;
+    }
+}
